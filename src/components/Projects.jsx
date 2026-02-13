@@ -44,9 +44,10 @@ export default function Projects() {
     },
     {
       title: 'Air Quality Monitoring System',
-      description: 'Intelligent AQI prediction system using ML models.',
+      description:
+        'A comprehensive real-time air quality monitoring application that helps users track air pollution levels, view historical data, and receive personalized alerts. The application provides interactive maps, detailed pollutant information, and health recommendations based on current air quality conditions.',
       tech: 'Express.js • Node.js • TailwindCSS • React',
-      github: 'https://github.com/yourrepo',
+      github: 'https://github.com/Zoiba-Tabassum/AIRYZE-intelligent-aqi-monitoring',
       video: '/public/videos/AiryzeAQI.mp4'
     }
   ]
