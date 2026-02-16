@@ -102,25 +102,33 @@ export default function Projects() {
     border-radius:10px;
   }
 
+  /* Large screens */
   @media (max-width:1200px){
     .project-card{
       min-width:45% !important;
     }
   }
 
+  /* Laptop */
   @media (max-width:1024px){
     .project-card{
       min-width:60% !important;
     }
   }
 
+  /* Tablet */
   @media (max-width:768px){
     .projects-section{
       padding:5rem 1.5rem !important;
     }
 
+    .project-gallery{
+      gap:1.2rem !important;
+    }
+
     .project-card{
-      min-width:85% !important;
+      min-width:100% !important;   /* Full width */
+      flex:0 0 100% !important;    /* Prevent shrinking */
     }
 
     .projects-title{
@@ -129,13 +137,19 @@ export default function Projects() {
     }
   }
 
+  /* Small Phones */
   @media (max-width:480px){
     .projects-section{
       padding:4rem 1rem !important;
     }
 
+    .project-gallery{
+      gap:1rem !important;
+    }
+
     .project-card{
-      min-width:95% !important;
+      min-width:100% !important;
+      flex:0 0 100% !important;
       padding:1.2rem !important;
     }
 
@@ -147,7 +161,7 @@ export default function Projects() {
       font-size:0.9rem !important;
     }
   }
-  `
+`
 
   return (
     <>
@@ -247,6 +261,7 @@ export default function Projects() {
               return (
                 <div
                   key={index}
+                  className="project-card"
                   style={cardStyle}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
