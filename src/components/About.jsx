@@ -93,10 +93,11 @@ export default function About() {
             maxWidth: '750px',
             transform: visible ? 'translateY(0)' : 'translateY(40px)',
             transition: 'all 1s ease',
-            transitionDelay: '0.2s'
+            transitionDelay: '0.2s',
+            textAlign: 'justify'
           }}>
           I’m a Software Engineering student with hands-on experience in building scalable, data-driven web applications. Through academic projects and
-          internships, I’ve developed full-stack systems focused on performance, structured backend logic, and efficient data management. I prioritize clean
+          internships. I have developed full-stack systems focused on performance, structured backend logic, and efficient data management. I prioritize clean
           architecture, problem-solving, and building reliable solutions ready for real-world impact.
         </p>
 
@@ -121,7 +122,6 @@ export default function About() {
                 opacity: visible ? 0.9 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(40px)',
                 transition: 'all 0.4s ease',
-                transitionDelay: `${0.4 + index * 0.1}s`,
                 cursor: 'pointer'
               }}
               onMouseEnter={(e) => {

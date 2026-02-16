@@ -88,90 +88,63 @@ export default function Projects() {
 
   /* ---------------- Responsive Media Queries ---------------- */
   const responsiveStyles = `
-    @media (max-width: 1024px){
-      .project-card{
-        min-width: 60% !important;
-      }
-    }
-
-    @media (max-width: 768px){
-      .projects-section{
-        padding: 6rem 1.5rem !important;
-      }
-
-      .project-card{
-        min-width: 85% !important;
-      }
-
-      .projects-title{
-        font-size: 2rem !important;
-        margin-left: 0 !important;
-      }
-    }
-
-    @media (max-width: 480px){
-      .project-card{
-        min-width: 95% !important;
-        padding: 1.2rem !important;
-      }
-
-      .projects-title{
-        font-size: 1.7rem !important;
-      }
-    }
-      /* Hide Scrollbar - Chrome, Safari */
-  .project-gallery::-webkit-scrollbar {
-    height: 8px;
-  }
-
-  .project-gallery::-webkit-scrollbar-track {
-    background: transparent;   /* remove scrollbar background */
-  }
-
-  .project-gallery::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.15); /* modern subtle thumb */
-    border-radius: 10px;
-  }
-
-  .project-gallery::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.35);
-  }
-
-  /* Firefox */
-  .project-gallery {
+  .project-gallery{
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,0.2) transparent;
   }
 
-  @media (max-width: 1024px){
+  .project-gallery::-webkit-scrollbar{
+    height:6px;
+  }
+
+  .project-gallery::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,0.2);
+    border-radius:10px;
+  }
+
+  @media (max-width:1200px){
     .project-card{
-      min-width: 60% !important;
+      min-width:45% !important;
     }
   }
 
-  @media (max-width: 768px){
+  @media (max-width:1024px){
+    .project-card{
+      min-width:60% !important;
+    }
+  }
+
+  @media (max-width:768px){
     .projects-section{
-      padding: 6rem 1.5rem !important;
+      padding:5rem 1.5rem !important;
     }
 
     .project-card{
-      min-width: 85% !important;
+      min-width:85% !important;
     }
 
     .projects-title{
-      font-size: 2rem !important;
-      margin-left: 0 !important;
+      font-size:2rem !important;
+      margin-left:0 !important;
     }
   }
 
-  @media (max-width: 480px){
+  @media (max-width:480px){
+    .projects-section{
+      padding:4rem 1rem !important;
+    }
+
     .project-card{
-      min-width: 95% !important;
-      padding: 1.2rem !important;
+      min-width:95% !important;
+      padding:1.2rem !important;
     }
 
     .projects-title{
-      font-size: 1.7rem !important;
+      font-size:1.6rem !important;
+    }
+
+    .project-card p{
+      font-size:0.9rem !important;
     }
   }
   `
@@ -306,12 +279,13 @@ export default function Projects() {
 
                   <h3>{project.title}</h3>
 
-                  <p style={{ opacity: 0.7 }}>{project.description}</p>
+                  <p style={{ opacity: 0.6, marginTop: '0.5rem', textAlign: 'left' }}>{project.description}</p>
 
                   <p
                     style={{
                       fontSize: '0.9rem',
-                      opacity: 0.6
+                      opacity: 0.6,
+                      marginTop: '0.8rem'
                     }}>
                     Tech: {project.tech}
                   </p>
@@ -324,7 +298,8 @@ export default function Projects() {
                       display: 'inline-block',
                       marginTop: '0.8rem',
                       color: '#D8D2C2',
-                      textDecoration: 'none'
+                      textDecoration: 'none',
+                      opacity: 1
                     }}>
                     View on GitHub →
                   </a>
