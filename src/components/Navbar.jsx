@@ -4,18 +4,18 @@ import logo from '/logo.png'
 export default function Navbar() {
   const [hovered, setHovered] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
-  /* ---------- Screen Resize ---------- */
+  // ---------- Screen Resize ----------
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-      if (window.innerWidth >= 768) setMenuOpen(false)
-    }
-
+    const handleResize = () => setWindowWidth(window.innerWidth)
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  const isMobile = windowWidth < 768
+  const isTablet = windowWidth >= 768 && windowWidth < 1024
+  const isDesktop = windowWidth >= 1024
 
   const navItems = ['About', 'Education', 'Projects', 'Accomplishments', 'Contact']
 
@@ -25,8 +25,8 @@ export default function Navbar() {
       <div
         style={{
           position: 'fixed',
-          top: isMobile ? '1.4rem' : '2rem',
-          left: isMobile ? '1.5rem' : '3rem',
+          top: isMobile ? '1.4rem' : isTablet ? '1.8rem' : '2rem',
+          left: isMobile ? '1.5rem' : isTablet ? '2.5rem' : '3rem',
           display: 'flex',
           alignItems: 'center',
           gap: '0.8rem',
@@ -37,32 +37,32 @@ export default function Navbar() {
           src={logo}
           alt="logo"
           style={{
-            width: isMobile ? '36px' : '43px',
-            height: isMobile ? '36px' : '43px',
+            width: isMobile ? '36px' : isTablet ? '40px' : '43px',
+            height: isMobile ? '36px' : isTablet ? '40px' : '43px',
             objectFit: 'contain',
             filter: 'brightness(1.5)'
           }}
         />
       </div>
 
-      {/* 🔹 Desktop Navigation */}
-      {!isMobile && (
+      {/* 🔹 Desktop & Tablet Navigation */}
+      {(isDesktop || isTablet) && (
         <nav
           style={{
             position: 'fixed',
-            top: '1.15rem',
+            top: isTablet ? '1rem' : '1.15rem',
             left: '70%',
             transform: 'translateX(-50%)',
             zIndex: 100,
             backdropFilter: 'blur(12px)',
             background: 'transparent',
             borderRadius: '999px',
-            padding: '0.75rem 1.8rem',
+            padding: isTablet ? '0.6rem 1.5rem' : '0.75rem 1.8rem',
             display: 'flex',
-            gap: '2rem',
+            gap: isTablet ? '1.5rem' : '2rem',
             color: 'white',
             fontWeight: '500',
-            fontSize: '1.05rem',
+            fontSize: isTablet ? '0.95rem' : '1.05rem',
             letterSpacing: '0.04rem'
           }}>
           {navItems.map((item) => {
@@ -98,33 +98,18 @@ export default function Navbar() {
             zIndex: 250,
             cursor: 'pointer'
           }}>
-          <div
-            style={{
-              width: '26px',
-              height: '2px',
-              background: 'white',
-              margin: '6px 0',
-              transition: '0.3s'
-            }}
-          />
-          <div
-            style={{
-              width: '26px',
-              height: '2px',
-              background: 'white',
-              margin: '6px 0',
-              transition: '0.3s'
-            }}
-          />
-          <div
-            style={{
-              width: '26px',
-              height: '2px',
-              background: 'white',
-              margin: '6px 0',
-              transition: '0.3s'
-            }}
-          />
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              style={{
+                width: '26px',
+                height: '2px',
+                background: 'white',
+                margin: '6px 0',
+                transition: '0.3s'
+              }}
+            />
+          ))}
         </div>
       )}
 

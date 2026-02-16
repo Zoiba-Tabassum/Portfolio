@@ -144,8 +144,10 @@ export default function Projects() {
     }
 
     .project-gallery{
-      gap:1rem !important;
-    }
+ flex-direction: column !important;  /* stack vertically */
+    overflow-x: hidden !important;      /* remove horizontal scroll */
+    overflow-y: auto !important;
+    gap:1.5rem !important;}
 
     .project-card{
       min-width:100% !important;
@@ -247,11 +249,14 @@ export default function Projects() {
             className="projects-title"
             style={{
               fontSize: '2.5rem',
-              marginBottom: '3rem',
+              marginBottom: '0.5rem',
               marginLeft: '2rem'
             }}>
             PROJECTS
           </h2>
+          <h3 style={{ marginBottom: '2rem', marginLeft: '2.25rem', opacity: 0.7, fontWeight: 50, fontSize: '.75rem', fontStyle: 'italic' }}>
+            Hover to see demo
+          </h3>
 
           {/* Horizontal Gallery */}
           <div style={galleryStyle} className="project-gallery">
@@ -275,7 +280,7 @@ export default function Projects() {
                     videoRef.current.currentTime = 0
                   }}>
                   {/* Hover Video Preview */}
-                  <div onClick={() => setActiveVideo(project.video)} style={{ marginBottom: '1rem' }}>
+                  <div onClick={() => setActiveVideo(project.video)} style={{ marginBottom: '1rem', position: 'relative', cursor: 'pointer' }}>
                     <video
                       ref={videoRef}
                       src={project.video}
@@ -287,8 +292,25 @@ export default function Projects() {
                       style={{
                         width: '100%',
                         borderRadius: '12px',
-                        objectFit: 'cover'
+                        objectFit: 'cover',
+                        display: 'block'
                       }}
+                    />{' '}
+                    {/* Play Button Overlay */}
+                    <img
+                      src="/playbutton.png"
+                      alt="Play"
+                      style={{
+                        position: 'absolute',
+                        bottom: '12px',
+                        right: '12px',
+                        width: '45px',
+                        height: '45px',
+                        opacity: 0.9,
+                        pointerEvents: 'none',
+                        transition: 'transform 0.3s ease, opacity 0.3s ease'
+                      }}
+                      className="play-button"
                     />
                   </div>
 

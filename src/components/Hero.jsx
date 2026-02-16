@@ -10,19 +10,19 @@ export default function Hero() {
   const imageRef = useRef(null)
 
   const [visible, setVisible] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
-  /* ---------- Responsive detection ---------- */
+  // ---------- Responsive detection ----------
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
+    const handleResize = () => setWindowWidth(window.innerWidth)
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  /* ---------- Entrance + Parallax ---------- */
+  const isMobile = windowWidth < 768
+  const isTablet = windowWidth >= 768 && windowWidth < 1024
+
+  // ---------- Entrance + Parallax ----------
   useEffect(() => {
     setVisible(true)
 
@@ -43,10 +43,50 @@ export default function Hero() {
       }
     )
 
-    return () => {
-      anim?.scrollTrigger?.kill()
-    }
+    return () => anim?.scrollTrigger?.kill()
   }, [isMobile])
+
+  // ---------- Sizes ----------
+  const backgroundStyle = {
+    position: 'absolute',
+    top: 0,
+    right: isMobile ? 0 : isTablet ? '-5%' : '-10%',
+    width: isMobile ? '100%' : isTablet ? '90%' : '82%',
+    height: '100%',
+    backgroundImage: "url('/d-rendering-black-background-product-podium-stand-studio.jpg')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    willChange: 'transform'
+  }
+
+  const splineStyle = {
+    position: 'absolute',
+    right: 0,
+    top: isMobile ? '55%' : isTablet ? '15%' : 0,
+    zIndex: 5,
+    width: isMobile ? '100%' : isTablet ? '60%' : '50%',
+    height: isMobile ? '45%' : isTablet ? '70%' : '100%',
+    pointerEvents: 'auto'
+  }
+
+  const contentStyle = {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    zIndex: 2,
+    width: isMobile ? '100%' : isTablet ? '55%' : '50%',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: isMobile ? 'flex-start' : 'center',
+    textAlign: 'center',
+    color: 'white',
+    padding: isMobile ? '6rem 1.5rem 0' : isTablet ? '2rem 1rem' : '0 1rem',
+    opacity: visible ? 1 : 0,
+    transform: visible ? 'translateY(0px)' : 'translateY(40px)',
+    transition: 'all 1s ease'
+  }
 
   return (
     <section
@@ -57,20 +97,7 @@ export default function Hero() {
         overflow: 'hidden'
       }}>
       {/* Background Image */}
-      <div
-        ref={imageRef}
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: isMobile ? 0 : '-10%',
-          width: isMobile ? '100%' : '82%',
-          height: '100%',
-          backgroundImage: "url('/d-rendering-black-background-product-podium-stand-studio.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          willChange: 'transform'
-        }}
-      />
+      <div ref={imageRef} style={backgroundStyle} />
 
       {/* Left Fade Blend */}
       <div
@@ -79,7 +106,9 @@ export default function Hero() {
           inset: 0,
           background: isMobile
             ? 'linear-gradient(to bottom,#0a0a0a 20%,rgba(10,10,10,0.4) 60%,transparent)'
-            : 'linear-gradient(90deg,#0a0a0a 40%,rgba(10,10,10,0.6) 48%,rgba(10,10,10,0) 100%)'
+            : isTablet
+              ? 'linear-gradient(90deg,#0a0a0a 35%,rgba(10,10,10,0.5) 50%,rgba(10,10,10,0) 100%)'
+              : 'linear-gradient(90deg,#0a0a0a 40%,rgba(10,10,10,0.6) 48%,rgba(10,10,10,0) 100%)'
         }}
       />
 
@@ -93,17 +122,7 @@ export default function Hero() {
       />
 
       {/* Spline Scene */}
-      <div
-        style={{
-          position: 'absolute',
-          right: 0,
-          top: isMobile ? '55%' : 0,
-          zIndex: 5,
-          width: isMobile ? '100%' : '50%',
-          height: isMobile ? '45%' : '100%',
-          pointerEvents: 'auto'
-        }}>
-        {/* Disable heavy rendering shift on very small screens */}
+      <div style={splineStyle}>
         <Spline scene="https://prod.spline.design/JVSGQpJxX4oMLLfM/scene.splinecode" />
       </div>
 
@@ -113,9 +132,9 @@ export default function Hero() {
           position: 'absolute',
           bottom: 0,
           right: 0,
-          width: '145px',
+          width: isMobile ? '140px' : '145px',
           height: '35px',
-          margin: '1.3rem',
+          margin: '1rem',
           padding: '0.45rem',
           borderRadius: '9px',
           backgroundColor: '#161717',
@@ -128,7 +147,7 @@ export default function Hero() {
         <span
           style={{
             color: '#4c4d4d',
-            fontSize: '0.85rem',
+            fontSize: '0.75rem',
             letterSpacing: '1px'
           }}>
           Zoiba © 2026
@@ -136,29 +155,10 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          zIndex: 2,
-          width: isMobile ? '100%' : '50%',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: isMobile ? 'flex-start' : 'center',
-          textAlign: 'center',
-          color: 'white',
-          padding: isMobile ? '7rem 1.5rem 0' : '0 1rem',
-
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0px)' : 'translateY(40px)',
-          transition: 'all 1s ease'
-        }}>
+      <div style={contentStyle}>
         <h1
           style={{
-            fontSize: isMobile ? '2.1rem' : '3rem',
+            fontSize: isMobile ? '2rem' : isTablet ? '2.5rem' : '3rem',
             fontWeight: 800,
             letterSpacing: '1px'
           }}>
@@ -167,7 +167,7 @@ export default function Hero() {
 
         <p
           style={{
-            fontSize: isMobile ? '1.1rem' : '1.5rem',
+            fontSize: isMobile ? '1rem' : isTablet ? '1.25rem' : '1.5rem',
             opacity: 0.85,
             color: '#D8D2C2',
             marginTop: '0.6rem',
