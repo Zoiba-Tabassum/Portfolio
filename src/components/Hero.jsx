@@ -7,15 +7,28 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function Hero() {
   const heroRef = useRef(null)
-  const imageRef = useRef(null) // ✅ define the ref
-  const [visible, setVisible] = useState(false)
+  const imageRef = useRef(null)
 
+  const [visible, setVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+
+  /* ---------- Responsive detection ---------- */
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  /* ---------- Entrance + Parallax ---------- */
   useEffect(() => {
     setVisible(true)
 
-    if (!heroRef.current || !imageRef.current) return
+    if (!heroRef.current || !imageRef.current || isMobile) return
 
-    gsap.fromTo(
+    const anim = gsap.fromTo(
       imageRef.current,
       { scale: 1 },
       {
@@ -29,7 +42,11 @@ export default function Hero() {
         }
       }
     )
-  }, [])
+
+    return () => {
+      anim?.scrollTrigger?.kill()
+    }
+  }, [isMobile])
 
   return (
     <section
@@ -39,14 +56,14 @@ export default function Hero() {
         minHeight: '100vh',
         overflow: 'hidden'
       }}>
-      {/* Right-aligned background image */}
+      {/* Background Image */}
       <div
-        ref={imageRef} // ✅ now correctly defined
+        ref={imageRef}
         style={{
           position: 'absolute',
           top: 0,
-          right: '-10%',
-          width: '82%',
+          right: isMobile ? 0 : '-10%',
+          width: isMobile ? '100%' : '82%',
           height: '100%',
           backgroundImage: "url('/d-rendering-black-background-product-podium-stand-studio.jpg')",
           backgroundSize: 'cover',
@@ -55,17 +72,18 @@ export default function Hero() {
         }}
       />
 
-      {/* Left-side fade blend */}
+      {/* Left Fade Blend */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(90deg, #0a0a0a 40%, rgba(10,10,10,0.6) 48%, rgba(10,10,10,0) 100%)',
-          zIndex: 0.6
+          background: isMobile
+            ? 'linear-gradient(to bottom,#0a0a0a 20%,rgba(10,10,10,0.4) 60%,transparent)'
+            : 'linear-gradient(90deg,#0a0a0a 40%,rgba(10,10,10,0.6) 48%,rgba(10,10,10,0) 100%)'
         }}
       />
 
-      {/* Dark overlay */}
+      {/* Dark Overlay */}
       <div
         style={{
           position: 'absolute',
@@ -74,20 +92,22 @@ export default function Hero() {
         }}
       />
 
-      {/* Spline 3D Scene */}
+      {/* Spline Scene */}
       <div
         style={{
           position: 'absolute',
           right: 0,
-          top: 0,
-          zIndex: 5, // lower than 10
-          width: '50%',
-          height: '100%'
+          top: isMobile ? '55%' : 0,
+          zIndex: 5,
+          width: isMobile ? '100%' : '50%',
+          height: isMobile ? '45%' : '100%',
+          pointerEvents: 'auto'
         }}>
+        {/* Disable heavy rendering shift on very small screens */}
         <Spline scene="https://prod.spline.design/JVSGQpJxX4oMLLfM/scene.splinecode" />
       </div>
 
-      {/* Hide Spline watermark (bottom-right cover) */}
+      {/* Watermark Cover */}
       <div
         style={{
           position: 'absolute',
@@ -101,7 +121,6 @@ export default function Hero() {
           backgroundColor: '#161717',
           zIndex: 10,
           pointerEvents: 'none',
-
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -123,24 +142,39 @@ export default function Hero() {
           left: 0,
           top: 0,
           zIndex: 2,
-          width: '50%',
+          width: isMobile ? '100%' : '50%',
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: isMobile ? 'flex-start' : 'center',
           textAlign: 'center',
           color: 'white',
-          padding: '0 1rem',
+          padding: isMobile ? '7rem 1.5rem 0' : '0 1rem',
 
-          // ✨ Animation styles
           opacity: visible ? 1 : 0,
           transform: visible ? 'translateY(0px)' : 'translateY(40px)',
           transition: 'all 1s ease'
         }}>
-        <h1 style={{ fontSize: '3rem', fontWeight: 800 }}>ZOIBA TABASSUM</h1>
+        <h1
+          style={{
+            fontSize: isMobile ? '2.1rem' : '3rem',
+            fontWeight: 800,
+            letterSpacing: '1px'
+          }}>
+          ZOIBA TABASSUM
+        </h1>
 
-        <p style={{ fontSize: '1.5rem', opacity: 0.85, color: '#D8D2C2' }}>Software Engineer | Scalable & Sustainable Tech</p>
+        <p
+          style={{
+            fontSize: isMobile ? '1.1rem' : '1.5rem',
+            opacity: 0.85,
+            color: '#D8D2C2',
+            marginTop: '0.6rem',
+            lineHeight: 1.4
+          }}>
+          Software Engineer | Scalable & Sustainable Tech
+        </p>
       </div>
     </section>
   )

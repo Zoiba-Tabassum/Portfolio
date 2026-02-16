@@ -120,7 +120,7 @@ export default function About() {
                 objectFit: 'contain',
                 opacity: visible ? 0.9 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(40px)',
-                transition: 'all 0.8s ease',
+                transition: 'all 0.4s ease',
                 transitionDelay: `${0.4 + index * 0.1}s`,
                 cursor: 'pointer'
               }}

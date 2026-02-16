@@ -8,23 +8,21 @@ export default function Achievements() {
   const sectionRef = useRef(null)
   const cardsRef = useRef([])
   const imageRef = useRef(null)
+
   const [previewImage, setPreviewImage] = useState(null)
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
 
-  const accomplishments = [
-    {
-      title: '100 Days Badge - \nLeetCode 2025',
-      image: '/accomplishments/100DayBadge.png'
-    },
-    {
-      title: 'Wall of Hope Youth Program - Inernship Completion Certificate',
-      image: '/accomplishments/WOH_certificate_page-0001.jpg'
-    },
-    {
-      title: 'WWF Technical Internship Certificate - 8 Weeks',
-      image: '/accomplishments/WWF_Internship.jpeg'
-    }
-  ]
+  /* ---------- Responsive listener ---------- */
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
+  const isMobile = screenWidth < 600
+  const isTablet = screenWidth < 992
+
+  /* ---------- GSAP Animation ---------- */
   useEffect(() => {
     cardsRef.current.forEach((card, i) => {
       gsap.fromTo(
@@ -52,6 +50,21 @@ export default function Achievements() {
     })
   }, [])
 
+  const accomplishments = [
+    {
+      title: '100 Days Badge - LeetCode 2025',
+      image: '/accomplishments/100DayBadge.png'
+    },
+    {
+      title: 'Wall of Hope Youth Program - Internship Completion Certificate',
+      image: '/accomplishments/WOH_certificate_page-0001.jpg'
+    },
+    {
+      title: 'WWF Technical Internship Certificate - 8 Weeks',
+      image: '/accomplishments/WWF_Internship.jpeg'
+    }
+  ]
+
   return (
     <section
       ref={sectionRef}
@@ -61,36 +74,41 @@ export default function Achievements() {
         minHeight: '100vh',
         background: '#000000',
         color: 'white',
-        padding: '8rem 4rem',
+        padding: isMobile ? '5rem 1.2rem' : isTablet ? '6rem 2rem' : '8rem 4rem',
         overflow: 'hidden'
       }}>
       {/* Background Image */}
-      <div
-        ref={imageRef}
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: '50%',
-          height: '60%',
-          backgroundImage: "url('/flip.jpg')", // FIXED path
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.9,
-          zIndex: 0
-        }}
-      />
-      {/* left Fade */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to right, #000000 0%, rgba(0,0,0,0.8) 15%, rgba(0,0,0,0) 40%)',
-          pointerEvents: 'none'
-        }}
-      />
+      {!isMobile && (
+        <div
+          ref={imageRef}
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '50%',
+            height: '60%',
+            backgroundImage: "url('/flip.jpg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.9,
+            zIndex: 0
+          }}
+        />
+      )}
 
-      {/* Top Fade */}
+      {/* LEFT FADE */}
+      {!isMobile && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to right,#000000 0%,rgba(0,0,0,0.8) 15%,rgba(0,0,0,0) 40%)',
+            pointerEvents: 'none'
+          }}
+        />
+      )}
+
+      {/* TOP FADE */}
       <div
         style={{
           position: 'absolute',
@@ -98,13 +116,13 @@ export default function Achievements() {
           left: 0,
           width: '100%',
           height: '100px',
-          background: 'linear-gradient(to bottom, #000000, transparent)',
+          background: 'linear-gradient(to bottom,#000000,transparent)',
           pointerEvents: 'none',
           zIndex: 1
         }}
       />
 
-      {/* Bottom Fade */}
+      {/* BOTTOM FADE */}
       <div
         style={{
           position: 'absolute',
@@ -112,37 +130,41 @@ export default function Achievements() {
           left: 0,
           width: '100%',
           height: '100px',
-          background: 'linear-gradient(to top, #000000, transparent)',
+          background: 'linear-gradient(to top,#000000,transparent)',
           pointerEvents: 'none',
           zIndex: 1
         }}
       />
+
+      {/* TITLE */}
       <h2
         style={{
           textAlign: 'center',
-          fontSize: '2.5rem',
+          fontSize: isMobile ? '2rem' : '2.5rem',
           marginBottom: '4rem',
           letterSpacing: '2px',
-          background: 'linear-gradient(90deg, #fff, #fff)',
+          background: 'linear-gradient(90deg,#fff,#fff)',
           backgroundClip: 'text',
           color: 'transparent',
           fontWeight: '600',
           opacity: 0.9,
+          position: 'relative',
           zIndex: 2
         }}>
         ACCOMPLISHMENTS
       </h2>
+
       {/* Cards Container */}
       <div
         style={{
           position: 'relative',
           zIndex: 2,
           display: 'flex',
-          gap: '3rem',
+          gap: isMobile ? '1.5rem' : '3rem',
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop: '4rem',
-          flexWrap: 'wrap'
+          flexWrap: 'wrap',
+          marginTop: '4rem'
         }}>
         {accomplishments.map((item, index) => (
           <div
@@ -150,8 +172,8 @@ export default function Achievements() {
             ref={(el) => (cardsRef.current[index] = el)}
             onClick={() => setPreviewImage(item.image)}
             style={{
-              width: '220px',
-              height: '300px',
+              width: isMobile ? '200px' : '220px',
+              height: isMobile ? '270px' : '300px',
               borderRadius: '20px',
               background: 'linear-gradient(145deg,#0f0f0f,#1a1a1a)',
               boxShadow: '0 25px 50px rgba(0,0,0,0.6), inset 0 0 25px rgba(255,255,255,0.05)',
@@ -164,7 +186,7 @@ export default function Achievements() {
               cursor: 'pointer',
               transition: 'transform 0.4s ease'
             }}>
-            {/* Star Badge */}
+            {/* ⭐ STAR BADGE (UNCHANGED) */}
             <img
               src="/star.png"
               alt="star"
@@ -192,8 +214,10 @@ export default function Achievements() {
                 transition: 'transform 0.35s ease, filter 0.35s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'perspective(1000px) rotateY(8deg) scale(1.05)'
-                e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255,255,255,0.7))'
+                if (!isMobile) {
+                  e.currentTarget.style.transform = 'perspective(1000px) rotateY(8deg) scale(1.05)'
+                  e.currentTarget.style.filter = 'drop-shadow(0 0 12px rgba(255,255,255,0.7))'
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'perspective(1000px) rotateY(0deg) scale(1)'
@@ -205,7 +229,7 @@ export default function Achievements() {
             <p
               style={{
                 textAlign: 'center',
-                fontSize: '0.95rem',
+                fontSize: isMobile ? '0.85rem' : '0.95rem',
                 opacity: 0.85,
                 padding: '0 1rem'
               }}>
@@ -214,30 +238,30 @@ export default function Achievements() {
           </div>
         ))}
       </div>
-      {/* Image Preview Modal */}
+
+      {/* IMAGE PREVIEW MODAL */}
       {previewImage && (
         <div
           onClick={() => setPreviewImage(null)}
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0,0,0,0.85)',
+            background: 'rgba(0,0,0,0.9)',
             backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000,
-            animation: 'fadeIn 0.3s ease'
+            padding: '1rem',
+            zIndex: 1000
           }}>
           <img
             src={previewImage}
             alt="preview"
             style={{
-              maxWidth: '85%',
-              maxHeight: '85%',
+              maxWidth: '95%',
+              maxHeight: '90%',
               borderRadius: '12px',
-              boxShadow: '0 0 40px rgba(255,255,255,0.2)',
-              animation: 'scaleIn 0.3s ease'
+              boxShadow: '0 0 40px rgba(255,255,255,0.2)'
             }}
           />
         </div>
