@@ -39,7 +39,7 @@ export default function Projects() {
       title: 'Farm Data Management System',
       description:
         'A role-based farm data collection and management system designed to streamline agricultural record-keeping and analytics. Developed as an internship project at WWF, this system allows administrators and field facilitators to manage farmers, crops, livestock, land usage, and farming activities efficiently',
-      tech: 'Node.js • MySQL • Tailwind • JWT',
+      tech: 'Node.js • MySQL • Tailwind • JWT's,
       github: 'https://github.com/Zoiba-Tabassum/Farm-data-manager.git',
       video: '/videos/farm_data_manager.mp4',
       poster: '/videos/farm_data_manager_preview.png'
