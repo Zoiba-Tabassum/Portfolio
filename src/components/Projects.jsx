@@ -48,8 +48,8 @@ export default function Projects() {
       title: 'Air Quality Monitoring System',
       description:
         'A comprehensive real-time air quality monitoring application that helps users track air pollution levels, view historical data, and receive personalized alerts. The application provides interactive maps, detailed pollutant information, and health recommendations based on current air quality conditions.',
-      tech: 'React • Express • TailwindCSS',
-      github: 'https://github.com/Zoiba-Tabassum/AIRYZE-intelligent-aqi-monitoring',
+      tech: 'React • React leaflet • TailwindCSS • Axios • Nodejs • Express.js • Supabase • Node-cron • Nodemailer',
+      github: 'https://github.com/Zoiba-Tabassum/Intellignet-AQI-monitoring-Airyze.git',
       video: '/videos/AiryzeAQI.mp4',
       poster: '/videos/AiryzeAQI_preview.png'
     }
