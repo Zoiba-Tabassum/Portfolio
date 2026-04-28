@@ -190,7 +190,7 @@ export default function Contact() {
         {/* DOWNLOAD CV */}
         <div style={{ marginTop: '3rem' }}>
           <a
-            href="/ZoibaResume.pdf"
+            href="/Zoiba_Tabassum_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             style={{
